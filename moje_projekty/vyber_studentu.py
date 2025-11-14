@@ -9,12 +9,12 @@ def vyber_studentu(n):
     jmena = []
 
     for i in range(len(radky)):
-        jmena.append(radky[i].strip()) 
+        jmena.append(radky[i].strip())  #stacilo radky[i] = radky[i].strip()
 
     for i in range(n):
-        print(jmena[random.randint(0, len(jmena)-1)])
+        print(jmena[random.randint(0, len(jmena)-1)]) #xxxx.sort()
 
-n = int(input("Zadej pocet studentu: "))
+n = int(input("Zadej pocet studentu: "))   
 
 vyber_studentu(n)
 
