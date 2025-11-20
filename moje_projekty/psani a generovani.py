@@ -11,6 +11,6 @@ with open(cesta, "w", encoding="utf-8") as file:
         cisla.append(random.randint(mini, maxi))
 
     for i in range(len(cisla)):
-        file.write(cisla[i])
+        file.write(str(f"{cisla[i]}\n"))
 
 
