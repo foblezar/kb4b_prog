@@ -9,8 +9,12 @@ def vypis_statistiky():
     pocet_hard = 0
 
     kategorie_gk = 0
-    kategorie_e = 0
-    kategorie_s = 0
+    kategorie_eb = 0
+    kategorie_ef = 0
+    kategorie_em = 0
+    kategorie_evg = 0
+    kategorie_sn = 0
+    kategorie_sc = 0
     kategorie_g = 0
     kategorie_h = 0
 
@@ -42,21 +46,92 @@ def vypis_statistiky():
             for line in reader:
                 if line["category"] == "General Knowledge":
                     kategorie_gk += 1
-                elif line["category"] == "Entertainment":           ## OPRAVIT MA VICE KATEGORII
-                    kategorie_e += 1
-                elif line["category"] == "Science: Nature":      ## OPRAVIT MA VICE KATEGORII
+                elif line["category"] == "Entertainment: Books":          
+                    kategorie_eb += 1
+                elif line["category"] == "Entertainment: Film":          
+                    kategorie_ef += 1
+                elif line["category"] == "Entertainment: Music":          
+                    kategorie_em += 1
+                elif line["category"] == "Entertainment: Video Games":           
+                    kategorie_evg += 1
+                elif line["category"] == "Science: Nature":      
                     kategorie_sn += 1
+                elif line["category"] == "Science: Computers":      
+                    kategorie_sc += 1
                 elif line["category"] == "Geography":
                     kategorie_g += 1
                 elif line["category"] == "History":
                     kategorie_h += 1
             
-            categories = ["General Knowledge", "Entertaiment: Books", "Science", "Geography", "History"]
-            pocet_categories = [kategorie_gk, kategorie_e, kategorie_s, kategorie_g, kategorie_h]
+            categories = ["General Knowledge", "Entertaiment: Books", "Entertaiment: Film", "Entertaiment: Music", "Entertaiment: Video Games", "Science: Nature", "Science: Computers", "Geography", "History"]
+            pocet_categories = [kategorie_gk, kategorie_eb, kategorie_ef, kategorie_em, kategorie_evg, kategorie_sn, kategorie_sc, kategorie_g, kategorie_h]
         plt.bar(categories, pocet_categories)
         plt.title("Poměr kategorií")
         plt.show()
 
+
+
+def hlavni_hra():
+    
+    pokracovat_otazky = True
+    easy = 0
+    medium = 0
+    hard = 0
+
+
+    with open("2. prace_se_soubory\PROJEKT_milionar\quiz_questions.csv", "r", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        otazky = list(reader)         #pole s dictionary jako otazky
+
+        while pokracovat_otazky == True:
+            otazka = otazky[random.randint(0, 259)]
+            if otazka["difficulty"] == "easy":
+                print(otazka["question"])
+                odpoved = input("Zadej odpoved: [True/False]: ")
+                if odpoved != otazka["correct_answer"]:
+                    print("Odpovedel si spatne! ")
+                    break
+                
+                easy += 1
+                
+                if easy == 5:
+                    pokracovat_otazky = False
+
+        if easy == 5:
+            pokracovat_otazky = True
+
+            while pokracovat_otazky == True:
+                otazka = otazky[random.randint(0, 259)]
+                if otazka["difficulty"] == "medium":
+                    print(otazka["question"])
+                    odpoved = input("Zadej odpoved: [True/False]: ")
+                    if odpoved != otazka["correct_answer"]:
+                        print("Odpovedel si spatne! ")
+                        break
+                    
+                    medium += 1
+
+                    if medium == 5:
+                        pokracovat_otazky = False
+
+        if medium ==5:
+            pokracovat_otazky = True
+
+            while pokracovat_otazky == True:
+                otazka = otazky[random.randint(0, 259)]
+                if otazka["difficulty"] == "hard":
+                    print(otazka["question"])
+                    odpoved = input("Zadej odpoved: [True/False]: ")
+                    if odpoved != otazka["correct_answer"]:
+                        print("Odpovedel si spatne! ")
+                        break
+                    
+                    hard += 1
+                    
+                    if hard == 5:
+                        print("Vyhrál si! ")
+                        #UDELAT ZAPSANI VYHERCE
+                        pokracovat_otazky = False
 
 
 
@@ -80,7 +155,7 @@ def main_menu():
 
 
 
-
+success = 0
 
 print("Zadej zpusob prihlaseni: ")
 print("1. Registrace")
