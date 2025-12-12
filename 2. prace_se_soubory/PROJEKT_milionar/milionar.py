@@ -67,6 +67,7 @@ def vypis_statistiky():
             pocet_categories = [kategorie_gk, kategorie_eb, kategorie_ef, kategorie_em, kategorie_evg, kategorie_sn, kategorie_sc, kategorie_g, kategorie_h]
         plt.bar(categories, pocet_categories)
         plt.title("Poměr kategorií")
+        plt.xticks(rotation=45, ha="right")
         plt.show()
 
 
