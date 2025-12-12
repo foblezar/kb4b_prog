@@ -23,7 +23,7 @@ def vypis_statistiky():
     print("2. Poměr kategorií")
     stat_choice = int(input("Zadej moznost: "))
     if stat_choice == 1:
-        with open("2. prace_se_soubory\PROJEKT_milionar\quiz_questions.csv", "r", encoding="utf-8") as file:
+        with open(r"2. prace_se_soubory\PROJEKT_milionar\quiz_questions.csv", "r", encoding="utf-8") as file:
             reader = csv.DictReader(file)
             for line in reader:
                 pocet_otazek += 1
@@ -41,7 +41,7 @@ def vypis_statistiky():
         plt.show()
         print(f"Počet otázek: {pocet_otazek}")
     elif stat_choice == 2:
-        with open("2. prace_se_soubory\PROJEKT_milionar\quiz_questions.csv", "r", encoding="utf-8") as file:
+        with open(r"2. prace_se_soubory\PROJEKT_milionar\quiz_questions.csv", "r", encoding="utf-8") as file:
             reader = csv.DictReader(file)
             for line in reader:
                 if line["category"] == "General Knowledge":
@@ -79,17 +79,23 @@ def hlavni_hra():
     hard = 0
 
 
-    with open("2. prace_se_soubory\PROJEKT_milionar\quiz_questions.csv", "r", encoding="utf-8") as file:
+    with open(r"2. prace_se_soubory\PROJEKT_milionar\quiz_questions.csv", "r", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         otazky = list(reader)         #pole s dictionary jako otazky
-
+        print()
+        print("Obtížnost - easy")
         while pokracovat_otazky == True:
             otazka = otazky[random.randint(0, 259)]
+            
             if otazka["difficulty"] == "easy":
+                print()
                 print(otazka["question"])
+                print()
+                
                 odpoved = input("Zadej odpoved: [True/False]: ")
                 if odpoved != otazka["correct_answer"]:
                     print("Odpovedel si spatne! ")
+                    print(f"Zodpovedel si [{easy} / 15] otazek")
                     break
                 
                 easy += 1
@@ -99,14 +105,19 @@ def hlavni_hra():
 
         if easy == 5:
             pokracovat_otazky = True
-
+            print()
+            print("Obtížnost - medium")
             while pokracovat_otazky == True:
                 otazka = otazky[random.randint(0, 259)]
                 if otazka["difficulty"] == "medium":
+                    print()
                     print(otazka["question"])
+                    print()
+
                     odpoved = input("Zadej odpoved: [True/False]: ")
                     if odpoved != otazka["correct_answer"]:
                         print("Odpovedel si spatne! ")
+                        print(f"Zodpovedel si [{medium+5} / 15] otazek")
                         break
                     
                     medium += 1
@@ -114,25 +125,44 @@ def hlavni_hra():
                     if medium == 5:
                         pokracovat_otazky = False
 
-        if medium ==5:
+        if medium == 5:
             pokracovat_otazky = True
-
+            print()
+            print("Obtížnost - hard")
             while pokracovat_otazky == True:
                 otazka = otazky[random.randint(0, 259)]
                 if otazka["difficulty"] == "hard":
+                    print()
                     print(otazka["question"])
+                    print()
+
                     odpoved = input("Zadej odpoved: [True/False]: ")
                     if odpoved != otazka["correct_answer"]:
                         print("Odpovedel si spatne! ")
+                        print(f"Zodpovedel si [{hard+5} / 15] otazek")
                         break
                     
                     hard += 1
                     
                     if hard == 5:
                         print("Vyhrál si! ")
-                        #UDELAT ZAPSANI VYHERCE
+                        zapsani_vyherce()
                         pokracovat_otazky = False
 
+
+def zapsani_vyherce():
+    cesta = r"2. prace_se_soubory\PROJEKT_milionar\vyherci.txt"
+    with open(cesta, "a", encoding="utf-8") as file:
+        zprava = input("Zadej svoji zpravu: ")
+        file.write(str(f"{uzivatel} - {zprava}\n"))
+
+def vypsani_vyhercu():
+    cesta = r"2. prace_se_soubory\PROJEKT_milionar\vyherci.txt"
+    print("Vyherci: ")
+    with open(cesta, "r", encoding="utf-8") as file:
+       lines = file.readlines()
+       for line in lines:
+           print(line)
 
 
 def main_menu():
@@ -146,7 +176,7 @@ def main_menu():
         if choice == 1:
             vypis_statistiky()
         elif choice == 2:
-            vypis_vitezu()
+            vypsani_vyhercu()
         elif choice == 3:
             hlavni_hra()
         else:
@@ -164,20 +194,23 @@ choice = int(input("Zadej moznost: "))
 if choice == 1:
     login = input("Zadej login: ")
     password = input("Zadej password: ")
-    with open("2. prace_se_soubory\PROJEKT_milionar\logins.txt", "a", encoding="utf-8") as file:
+    with open(r"2. prace_se_soubory\PROJEKT_milionar\logins.txt", "a", encoding="utf-8") as file:
         file.write(str(f"{login} {password}\n"))
         success = 1
 
 elif choice == 2:
     login = input("Zadej login: ")
     password = input("Zadej password: ")
-    with open("2. prace_se_soubory\PROJEKT_milionar\logins.txt", "r", encoding="utf-8") as file:
+    with open(r"2. prace_se_soubory\PROJEKT_milionar\logins.txt", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             control_login = line.split()
             if login == control_login[0] and password == control_login[1]:
+                print()
                 print("Přihlášení úspěšné")
+                print()
                 success = 1
+                uzivatel = login
    
 if success == 1:
     main_menu()
