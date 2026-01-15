@@ -5,7 +5,7 @@ from sklearn.neural_network import MLPClassifier
 X = []
 Y = []
 
-cesta = r"C:\Users\ochlubna\Downloads\kb4b_prog\3. strojove_uceni\data\bmi.csv"
+cesta = r"3. strojove_uceni\data\bmi.csv"
 with open(cesta, "r", encoding="utf-8") as file:
     for radek in csv.DictReader(file):
         Y.append(int(radek["Index"]))

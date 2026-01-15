@@ -41,7 +41,7 @@ test_Y = Y[split:]
 neural_network = MLPClassifier(
     hidden_layer_sizes=(8, 4),
     activation="relu",
-    max_iter=2000,
+    max_iter=10000,
     random_state=4
 )
 
@@ -54,7 +54,7 @@ correct = 0
 for i in range(len(results)):
     if test_Y[i] == results[i]:
         correct += 1
-print(correct / len(results))
+print(f"Procento spravnych odpovedi: {correct / len(results)*100}%")
 
 print(confusion_matrix(test_Y, results))
 
